@@ -139,6 +139,16 @@ final class ResourceTransformer
                 $transformation->result["attributes"][$name] = $attribute($transformation->object, $transformation->request, $name);
             }
         }
+
+        if (method_exists($transformation->resource, 'getMetaAsCallables')) {
+            $meta = $transformation->resource->getMetaAsCallables($transformation->object);
+
+            foreach ($meta as $name => $attribute) {
+                if ($transformation->request->isIncludedMeta($transformation->resourceType, $name)) {
+                    $transformation->result["meta"][$name] = $attribute($transformation->object, $transformation->request, $name);
+                }
+            }
+        }
     }
 
     private function transformRelationshipsObject(ResourceTransformation $transformation, DataInterface $data): void

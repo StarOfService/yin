@@ -70,6 +70,10 @@ class JsonApiRequest extends AbstractRequest implements JsonApiRequestInterface
      * @var array|null
      */
     protected $profiles;
+    /**
+     * @var array|null
+     */
+    private $includedMeta;
 
     public function __construct(
         ServerRequestInterface $request,
@@ -331,6 +335,57 @@ class JsonApiRequest extends AbstractRequest implements JsonApiRequestInterface
         }
 
         return isset($this->includedFields[$resourceType][$field]);
+    }
+
+    protected function setIncludedMeta(): array
+    {
+        $includedMeta = [];
+        $meta = $this->getQueryParam("meta", []);
+        if (is_array($meta) === false) {
+            throw $this->exceptionFactory->createQueryParamMalformedException($this, "meta", $meta);
+        }
+
+        foreach ($meta as $resourceType => $resourceMeta) {
+            if (is_string($resourceMeta) === false) {
+                throw $this->exceptionFactory->createQueryParamMalformedException($this, "meta", $meta);
+            }
+
+            $includedMeta[$resourceType] = array_flip(explode(",", $resourceMeta));
+        }
+
+        return $includedMeta;
+    }
+
+    /**
+     * Returns a list of meta names for the given resource type which should be present in the response.
+     */
+    public function getIncludedMeta(string $resourceType): array
+    {
+        if (!isset($this->includedMeta)) {
+            $this->includedMeta = $this->setIncludedMeta();
+        }
+
+        return isset($this->includedMeta[$resourceType]) ? array_keys($this->includedMeta[$resourceType]) : [];
+    }
+
+    /**
+     * Determines if a given meta for a given resource type should be present in the response or not.
+     */
+    public function isIncludedMeta(string $resourceType, string $meta): bool
+    {
+        if (!isset($this->includedMeta)) {
+            $this->includedMeta = $this->setIncludedMeta();
+        }
+
+        if (array_key_exists($resourceType, $this->includedMeta) === false) {
+            return false;
+        }
+
+        if (isset($this->includedMeta[$resourceType][""])) {
+            return false;
+        }
+
+        return isset($this->includedMeta[$resourceType][$meta]);
     }
 
     protected function setIncludedRelationships(): void
