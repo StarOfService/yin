@@ -209,7 +209,7 @@ trait HydratorTrait
         $function = &$callable;
         $reflection = new ReflectionFunction(Closure::fromCallable($function));
         $arguments  = $reflection->getParameters();
-        $class = isset($arguments[1]) ? $arguments[1]->getClass() : null;
+        $class = isset($arguments[1]) ? $arguments[1]->getType() : null;
 
         if ($class === null) {
             return null;

@@ -45,7 +45,7 @@ abstract class AbstractRequest
      * @param string $version HTTP protocol version
      * @return static
      */
-    public function withProtocolVersion($version)
+    public function withProtocolVersion($version): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withProtocolVersion($version);
@@ -93,7 +93,7 @@ abstract class AbstractRequest
      * @param string|string[] $value Header value(s).
      * @return static
      */
-    public function withHeader($name, $value)
+    public function withHeader($name, $value): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withHeader($name, $value);
@@ -107,7 +107,7 @@ abstract class AbstractRequest
      * @param string|string[] $value Header value(s).
      * @return static
      */
-    public function withAddedHeader($name, $value)
+    public function withAddedHeader($name, $value): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withAddedHeader($name, $value);
@@ -120,7 +120,7 @@ abstract class AbstractRequest
      * @param string $name
      * @return static
      */
-    public function withoutHeader($name)
+    public function withoutHeader($name): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withoutHeader($name);
@@ -137,7 +137,7 @@ abstract class AbstractRequest
     /**
      * @return static
      */
-    public function withBody(StreamInterface $body)
+    public function withBody(StreamInterface $body): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withBody($body);
@@ -154,7 +154,7 @@ abstract class AbstractRequest
      * @param mixed $requestTarget
      * @return static
      */
-    public function withRequestTarget($requestTarget)
+    public function withRequestTarget($requestTarget): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withRequestTarget($requestTarget);
@@ -171,7 +171,7 @@ abstract class AbstractRequest
      * @param string $method Case-sensitive method.
      * @return static
      */
-    public function withMethod($method)
+    public function withMethod($method): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withMethod($method);
@@ -188,7 +188,7 @@ abstract class AbstractRequest
      * @param bool $preserveHost Preserve the original state of the Host header.
      * @return static
      */
-    public function withUri(UriInterface $uri, $preserveHost = false)
+    public function withUri(UriInterface $uri, $preserveHost = false): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withUri($uri, $preserveHost);
@@ -209,7 +209,7 @@ abstract class AbstractRequest
     /**
      * @return static
      */
-    public function withCookieParams(array $cookies)
+    public function withCookieParams(array $cookies): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withCookieParams($cookies);
@@ -228,7 +228,7 @@ abstract class AbstractRequest
     /**
      * @return static
      */
-    public function withQueryParams(array $query)
+    public function withQueryParams(array $query): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withQueryParams($query);
@@ -274,7 +274,7 @@ abstract class AbstractRequest
     /**
      * @return static
      */
-    public function withUploadedFiles(array $uploadedFiles)
+    public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withUploadedFiles($uploadedFiles);
@@ -303,7 +303,7 @@ abstract class AbstractRequest
      * @param array|object|null $data
      * @return static
      */
-    public function withParsedBody($data)
+    public function withParsedBody($data): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withParsedBody($data);
@@ -332,7 +332,7 @@ abstract class AbstractRequest
      * @param mixed $value
      * @return static
      */
-    public function withAttribute($name, $value)
+    public function withAttribute($name, $value): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withAttribute($name, $value);
@@ -344,7 +344,7 @@ abstract class AbstractRequest
      * @param string $name The attribute name.
      * @return static
      */
-    public function withoutAttribute($name)
+    public function withoutAttribute($name): ServerRequestInterface
     {
         $self = clone $this;
         $self->serverRequest = $this->serverRequest->withoutAttribute($name);
